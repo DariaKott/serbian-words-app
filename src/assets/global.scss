@@ -1,0 +1,42 @@
+@use 'fonts' as f;
+
+* {
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: f.$text;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 300px;
+}
+
+.app_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.button-style {
+  border: none;
+  border-radius: 2px;
+  // border: 1px solid rgb(0, 195, 255);
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: turquoise;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background-color: aquamarine;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 600px) {
+  * {
+    font-size: 1.1rem;
+  }
+}

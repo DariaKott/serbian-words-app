@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100vw;
+  margin-bottom: 5em;
+  background-color: rgb(228, 227, 227);
+}
+
+.header_nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.header_logo {
+  align-self: flex-start;
+  padding-left: 2%;
+}

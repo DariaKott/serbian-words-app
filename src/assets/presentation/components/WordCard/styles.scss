@@ -1,0 +1,32 @@
+@use '../../../fonts.scss' as f;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  min-width: 10em;
+  border: 1px solid black;
+  background-color: rgb(193, 232, 245);
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  padding: 1em;
+}
+
+.word {
+  padding-left: 1%;
+  // border: 1px solid red;
+  text-align: center;
+
+  &_tags {
+    align-self: flex-end;
+    padding-top: 5%;
+    font-size: smaller;
+  }
+  &_translation {
+    font-style: italic;
+    color: chocolate;
+  }
+}
