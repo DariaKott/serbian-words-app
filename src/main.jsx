@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom/client'
 import { App } from './App.jsx'
 import './index.css'
 import './assets/global.scss';
-import { WordProvider } from './assets/presentation/components/Context/WordContext';
+//import { WordProvider } from './assets/presentation/components/Context/WordContext';
+import { store } from './store/index.js';
+import { Provider } from 'react-redux';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-  <WordProvider>
+  <Provider store={store}>
     <App />
-  </WordProvider>
+    </Provider>
   </React.StrictMode>,
 )
