@@ -9,7 +9,7 @@ import { fetchWords } from '../../../../store/slice/wordSlice';
 function HomePage() {
   const dispatch = useDispatch();
   // const [words, setWords] = useState(initialWords);
-  const { loading, error } = useSelector((state) => state.words);
+  const { loading, error } = useSelector((state) => state.word);
 
   useEffect(() => {
     dispatch(fetchWords());

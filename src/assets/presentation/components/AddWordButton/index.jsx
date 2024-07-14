@@ -15,7 +15,7 @@ function AddWord() {
 
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.words);
+  const { loading, error } = useSelector((state) => state.word);
 
   //const { addWord } = useContext(WordContext);
 

@@ -8,7 +8,8 @@ export default defineConfig({
     proxy: {
       "/api": {
         "target": "http://itgirlschool.justmakeit.ru",
-        "changeOrigin": true
+        "changeOrigin": true,
+        "rewrite": (path) => path.replace(/^\/api/, ''),
       },
     },
   },
