@@ -1,10 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { WordTableRow } from '../WordTableRow';
 import './styles.scss';
-import { WordContext } from '../Context/WordContext';
+//import { WordContext } from '../Context/WordContext';
+import { fetchWords, addWord, updateWord, deleteWord } from '../../../../store/slice/wordSlice';
 
 function WordTable() {
-  const { words, updateWord, deleteWord } = useContext(WordContext);
+  //const { words, updateWord, deleteWord } = useContext(WordContext);
+  const dispatch = useDispatch();
+  const words = useSelector((state) => state.word.words);
+  const loading = useSelector((state) => state.word.loading);
+  const error = useSelector((state) => state.word.error);
+
+  useEffect(() => {
+    dispatch(fetchWords());
+  }, [dispatch]);
+
+  const handleAddWord = (newWord) => {
+    dispatch(addWord(newWord));
+  };
+
+  const handleUpdateWord = (updatedWord) => {
+    dispatch(updateWord(updatedWord));
+  };
+
+  const handleDeleteWord = (wordId) => {
+    dispatch(deleteWord(wordId));
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <table className="word-table">
@@ -24,8 +49,8 @@ function WordTable() {
             key={word.id}
             index={index + 1}
             word={word}
-            updateWord={updateWord}
-            deleteWord={deleteWord}
+            updateWord={handleUpdateWord}
+            deleteWord={handleDeleteWord}
           />
         ))}
       </tbody>

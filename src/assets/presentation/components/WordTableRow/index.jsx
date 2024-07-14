@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateWord, deleteWord } from '../../../../store/slice/wordSlice';
 import './styles.scss';
 import '../../../../assets/global.scss';
 
-function WordTableRow({ word, index, updateWord, deleteWord }) {
+function WordTableRow({ word, index }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedWord, setEditedWord] = useState(word);
+  const dispatch = useDispatch();
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleSaveClick = () => {
-    // Сохранение изменений и отправка на сервер
-    updateWord(editedWord);
+    // Сохранение изменений и отправка на сервер через Redux
+    dispatch(updateWord(editedWord));
     setIsEditing(false);
-    console.log('что-то поменялось');
+    console.log('Изменения сохранены');
   };
 
   const handleDeleteClick = () => {
-    deleteWord(word.id);
+    dispatch(deleteWord(word.id));
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setEditedWord({ ...editedWord, [name]: value });
     // console.log(event.target.value); // Вывести значение в консоль
-    console.log('что-то поменялось2');
+    console.log('Поле изменено');
   };
 
   return (

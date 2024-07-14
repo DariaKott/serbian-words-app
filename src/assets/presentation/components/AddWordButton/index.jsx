@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../../../assets/global.scss';
 import './styles.scss';
-import { WordContext } from '../Context/WordContext';
+//import { WordContext } from '../Context/WordContext';
+import { addWord } from '../../../../store/slice/wordSlice';
 
 function AddWord() {
   const [addingWord, setAddingWords] = useState(false);
@@ -12,8 +14,10 @@ function AddWord() {
   const [tags, setTags] = useState('');
 
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.words);
 
-  const { addWord } = useContext(WordContext);
+  //const { addWord } = useContext(WordContext);
 
   const handleAddWord = () => {
     setAddingWords(true);
@@ -52,7 +56,7 @@ function AddWord() {
       tags_json: JSON.stringify(tags),
     };
 
-    addWord(newWord);
+    dispatch(addWord(newWord));
 
     console.log('Добавлено слово: ', newWord);
 
@@ -112,6 +116,7 @@ function AddWord() {
               </p>
             ))}
           </div>
+          {error && <p className="error-message">Ошибка: {error}</p>}
         </>
       ) : (
         <button className="button-style" onClick={handleAddWord}>
