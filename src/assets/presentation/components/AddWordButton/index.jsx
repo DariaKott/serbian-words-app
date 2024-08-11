@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../../../assets/global.scss';
 import './styles.scss';
-//import { WordContext } from '../Context/WordContext';
 import { addWord } from '../../../../store/slice/wordSlice';
 
 function AddWord() {
@@ -15,9 +14,8 @@ function AddWord() {
 
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.word);
+  const { error } = useSelector((state) => state.word);
 
-  //const { addWord } = useContext(WordContext);
 
   const handleAddWord = () => {
     setAddingWords(true);

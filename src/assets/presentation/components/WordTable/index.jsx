@@ -1,24 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { WordTableRow } from '../WordTableRow';
 import './styles.scss';
-//import { WordContext } from '../Context/WordContext';
-import { fetchWords, addWord, updateWord, deleteWord } from '../../../../store/slice/wordSlice';
+import { updateWord, deleteWord } from '../../../../store/slice/wordSlice';
 
 function WordTable() {
-  //const { words, updateWord, deleteWord } = useContext(WordContext);
+
   const dispatch = useDispatch();
   const words = useSelector((state) => state.word.words);
   const loading = useSelector((state) => state.word.loading);
   const error = useSelector((state) => state.word.error);
 
-  useEffect(() => {
-    dispatch(fetchWords());
-  }, [dispatch]);
 
-  const handleAddWord = (newWord) => {
-    dispatch(addWord(newWord));
-  };
 
   const handleUpdateWord = (updatedWord) => {
     dispatch(updateWord(updatedWord));

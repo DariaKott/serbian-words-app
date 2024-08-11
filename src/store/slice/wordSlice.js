@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Асинхронные действия для API запросов
 export const fetchWords = createAsyncThunk("word/fetchWords", async () => {
-    const response = await fetch("https://itgirlschool.justmakeit.ru/api/words");
+    const response = await fetch('/api/words');
     if (!response.ok) {
         const errorDetails = await response.text();
         throw new Error(`Ошибка: ${response.status} - ${response.statusText}. Детали: ${errorDetails}`);
