@@ -44,7 +44,7 @@ function Gallery({ focusButtonRef }) {
   };
 
   const incrementCounter = (wordId) => {
-    //Проверяем было ли слово уже просмотрено
+    //Проверяем было ли слово уже просмотрено, если нет то
     if (!viewedWords.has(wordId)) {
       setViewedWords((prevViewedWords) => new Set(prevViewedWords).add(wordId));
       setCounter(counter + 1);
