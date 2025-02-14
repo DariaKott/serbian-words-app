@@ -22,7 +22,7 @@ function WordCard(props) {
 
   return (
     <div className="card">
-      <h3 className="word word_word">{props.english}</h3>
+      <h3 className="word word_word">{props.serbian}</h3>
       <div className="word word_transcription">{props.transcription}</div>
       {showTranslation ? (
         <div>

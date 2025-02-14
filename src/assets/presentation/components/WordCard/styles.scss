@@ -16,17 +16,15 @@
 }
 
 .word {
-  padding-left: 1%;
-  // border: 1px solid red;
   text-align: center;
 
   &_tags {
     align-self: flex-end;
-    padding-top: 5%;
+    padding-top: 10px;
     font-size: smaller;
   }
   &_translation {
     font-style: italic;
-    color: chocolate;
+    color: rgb(210 30 74);
   }
 }

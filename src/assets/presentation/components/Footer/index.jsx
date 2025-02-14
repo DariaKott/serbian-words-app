@@ -11,6 +11,7 @@ function Footer() {
       <a target="_blank" href="https://icons8.com">
         Icons8
       </a>
+      <div>Daria Kotelnikova 2025</div>
     </div>
   );
 }
