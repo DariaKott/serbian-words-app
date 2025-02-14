@@ -3,7 +3,7 @@ name: Deploy Vite App to GitHub Pages
 on:
   push:
     branches:
-      - main  # Деплой будет происходить при каждом пуше в main
+      - main # Деплой будет происходить при каждом пуше в main
 
 permissions:
   contents: read
@@ -22,8 +22,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'  
-          
+          cache: "npm"
+
       - name: Install dependencies
         run: npm install
 
@@ -31,9 +31,9 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist  # Указываем папку с билдом
+          path: ./dist # Указываем папку с билдом
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
