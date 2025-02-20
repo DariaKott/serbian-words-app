@@ -23,7 +23,7 @@ function Header() {
           <Link to="/how-to-learn">Как учить</Link>
         </button>
       </div> */}
-      <h1>Учимо Српский</h1>
+      <h1>Учимо Српски</h1>
     </header>
   );
 }
