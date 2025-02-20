@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { WordCard } from '../WordCard';
-import { words } from '../../../../assets/data1';
+import { words } from '../../../../assets/words/data1';
 import Counter from '../Counter';
 import './styles.scss';
 
