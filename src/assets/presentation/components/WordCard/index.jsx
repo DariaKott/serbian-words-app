@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from '../Button';
 import './styles.scss';
 
 function WordCard(props) {
@@ -11,39 +12,35 @@ function WordCard(props) {
     }
   }, [focusButtonRef]);
 
-  const handleShowTranslation = () => {
-    setShowTranslation(true);
-    props.incrementCounter(); //Увеличиваем счетчик при первом просмотре
-  };
-
-  const handleHideTranslation = () => {
-    setShowTranslation(false);
+  const handleToggleTranslation = () => {
+    if (showTranslation) {
+      setShowTranslation(false);
+    } else {
+      setShowTranslation(true);
+      props.incrementCounter(); // увеличиваем счётчик при первом показе
+    }
   };
 
   return (
     <div className="card">
       <h3 className="word word_word">{props.serbian}</h3>
       <div className="word word_transcription">{props.transcription}</div>
-      {showTranslation ? (
-        <div>
-          <div className="word word_translation">{props.russian}</div>
-          <button className="button-style" onClick={handleHideTranslation}>
-            Скрыть перевод
-          </button>
-        </div>
-      ) : (
-        <div>
-          <div> </div>
-          <br />
-          <button
-            ref={focusButtonRef}
-            className="button-style"
-            onClick={handleShowTranslation}
-          >
-            Показать перевод
-          </button>
-        </div>
-      )}
+
+      {/* Всегда отображаем перевод (управляем видимостью классом) */}
+      <div className={`word word_translation ${showTranslation ? 'visible' : 'hidden'}`}>
+        {props.russian}
+      </div>
+
+      {/* Одна кнопка с переключающимся текстом */}
+      <Button
+        ref={focusButtonRef}
+        variant="primary"
+        onClick={handleToggleTranslation}
+        className="button--fixed-width"
+      >
+        {showTranslation ? 'Скрыть перевод' : 'Показать перевод'}
+      </Button>
+
       <div className="word word_tags">{props.tags}</div>
     </div>
   );

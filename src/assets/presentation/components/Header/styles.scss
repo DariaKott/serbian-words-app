@@ -1,29 +1,17 @@
+@use '../../../fonts.scss' as f;
+@use '../../../colors.scss' as c;
+
 .header {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100vw;
-  margin-bottom: 5em;
-  background-color: rgb(228, 227, 227);
-  border-radius: 2px;
-  box-shadow: 2px 0px 4px 4px rgba(0, 0, 0, 0.2);
-}
-
-.header_nav {
-  display: flex;
   justify-content: center;
-  width: 100%;
-}
+  align-items: center;
 
-.header_logo {
-  align-self: flex-start;
-  padding-left: 2%;
-}
-
-h1 {
-  font-size: 30px;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 3px;
-  margin: 0 auto;
+  &__title {
+    font-size: 52px;
+    font-family: f.$text; 
+    font-weight: 500;
+    color: c.$text-blue;
+    letter-spacing: 1px;
+    text-align: center;
+  }
 }

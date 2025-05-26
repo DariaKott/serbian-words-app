@@ -1,18 +1,10 @@
-import React from 'react';
 import './styles.scss';
 
 function Footer() {
   return (
-    <div className="footer">
-      <a target="_blank" href="https://icons8.com/icon/aaJkbfLeu2uu/mind-map">
-        Mind Map
-      </a>{' '}
-      icon by{' '}
-      <a target="_blank" href="https://icons8.com">
-        Icons8
-      </a>
-      <div>Daria Kotelnikova 2025</div>
-    </div>
+    <footer className="footer">
+      <p className="footer__author">© Daria Kotelnikova, 2025</p>
+    </footer>
   );
 }
 

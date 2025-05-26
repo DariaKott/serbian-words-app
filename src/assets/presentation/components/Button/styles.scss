@@ -1,0 +1,65 @@
+@use '../../../colors.scss' as c;
+ 
+.button {
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  padding: 0.6em 1.4em;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: c.$primary-hover;
+  }
+
+  &--primary {
+    background-color: c.$primary;
+    color: c.$text-light;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: c.$primary-hover;
+    }
+  }
+
+  &--secondary {
+    background-color: c.$accent;
+    color: c.$text-light;
+
+    &:hover {
+      background-color: c.$accent-hover;
+    }
+  }
+
+    &--yellow {
+    background-color: c.$yellow-accent;
+    color: c.$text-blue;
+
+    &:hover {
+      background-color: c.$yellow-accent-hover;
+    }
+  }
+
+  &--circle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 22px;
+    background-color: c.$primary;
+    color: c.$text-light;
+    border-radius: 50%;
+    // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: c.$primary-hover;
+    }
+}
+}

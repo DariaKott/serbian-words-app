@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { WordCard } from '../WordCard';
 import { words } from '../../../../assets/words/data1';
 import Counter from '../Counter';
+import { Button } from '../Button';
+import { LessonSelect } from '../LessonSelect';
 import './styles.scss';
 
 function Gallery({ focusButtonRef }) {
@@ -10,14 +12,21 @@ function Gallery({ focusButtonRef }) {
   const [viewedWords, setViewedWords] = useState(new Set());
   const [shuffled, setShuffled] = useState(false);
   const [shuffledIndexes, setShuffledIndexes] = useState([]);
+  const [selectedTheme, setSelectedTheme] = useState('');
+
+  const themes = [
+  { value: 'all', label: 'Все слова' },
+  { value: 'verbs', label: 'Глаголы' },
+  { value: 'nouns', label: 'Существительные' },
+  { value: 'adjectives', label: 'Прилагательные' },
+  { value: 'doctor', label: 'У врача' }
+];
+
 
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.key === 'ArrowLeft') {
-        previousCard();
-      } else if (e.key === 'ArrowRight') {
-        nextCard();
-      }
+      if (e.key === 'ArrowLeft') previousCard();
+      else if (e.key === 'ArrowRight') nextCard();
     };
 
     document.addEventListener('keydown', handleKeyPress);
@@ -31,10 +40,8 @@ function Gallery({ focusButtonRef }) {
     setShuffledIndexes(newIndexes);
     setShuffled(true);
     setCount(0);
-    console.log(newIndexes);
-  }
+  };
 
-  //функции для переключения между карточками при нажатии стрелок, с зацикливанием по кругу
   const nextCard = () => {
     setCount((prev) => (prev < words.length - 1 ? prev + 1 : 0));
   };
@@ -44,7 +51,6 @@ function Gallery({ focusButtonRef }) {
   };
 
   const incrementCounter = (wordId) => {
-    //Проверяем было ли слово уже просмотрено, если нет то
     if (!viewedWords.has(wordId)) {
       setViewedWords((prevViewedWords) => new Set(prevViewedWords).add(wordId));
       setCounter(counter + 1);
@@ -54,32 +60,35 @@ function Gallery({ focusButtonRef }) {
   const currentWord = shuffled ? words[shuffledIndexes[count]] : words[count];
 
   return (
-    <React.Fragment>
-      <div className="gallery_container">
-        <button className='button-style' onClick={shuffleWords}>Перемешать слова</button>
-        <div className="card_container">
-          <button className="gallery_button" onClick={previousCard}>
-            {'<'}
-          </button>
-          {/* <WordCard
-            key={words[count].id}
-            focusButtonRef={focusButtonRef}
-            {...words[count]}
-            incrementCounter={() => incrementCounter(words[count].id)}
-          /> */}
-          <WordCard 
+    <div className="gallery_container">
+      <LessonSelect
+  value={selectedTheme}
+  onChange={(e) => setSelectedTheme(e.target.value)}
+  options={themes}
+/>
+      <Button variant="yellow" onClick={shuffleWords}>
+        Перемешать слова
+      </Button>
+
+      <div className="card_container">
+        <Button variant="circle" onClick={previousCard}>
+          ‹
+        </Button>
+        
+        <WordCard
           key={currentWord.id}
           focusButtonRef={focusButtonRef}
           {...currentWord}
           incrementCounter={() => incrementCounter(currentWord.id)}
-          />
-          <button className="gallery_button" onClick={nextCard}>
-            {'>'}
-          </button>
-        </div>
-        <Counter counter={counter} />
+        />
+
+        <Button variant="circle" onClick={nextCard}>
+          ›
+        </Button>
       </div>
-    </React.Fragment>
+
+      <Counter counter={counter} />
+    </div>
   );
 }
 
