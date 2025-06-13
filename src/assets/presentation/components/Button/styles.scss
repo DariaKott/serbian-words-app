@@ -37,6 +37,7 @@
     &--yellow {
     background-color: c.$yellow-accent;
     color: c.$text-blue;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     &:hover {
       background-color: c.$yellow-accent-hover;
@@ -62,4 +63,8 @@
       background-color: c.$primary-hover;
     }
 }
+
+    @media (max-width: 500px) { 
+        font-size: 16px;
+  }
 }

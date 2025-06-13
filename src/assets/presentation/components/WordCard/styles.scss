@@ -4,29 +4,38 @@
 .card {
   background-color: c.$bg-light;
   border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: min(90%, 320px);
+  // box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  // width: min(90%, 320px);
+  width: 280px;
+  height: 350px;
   margin: 0 auto;
-  text-align: center;
+  justify-content: space-between;
   padding: 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
+
+  @media (max-width: 500px) { 
+    width: 250px;
+    height: 300px;
+    
+  }
 }
 
 .word {
   font-family: f.$text; 
+  text-align: center;
   
   &_word {
-    font-size: 34px;
+    // font-size: 34px;
+    font-size: clamp(20px, calc(20px + 10 * ((100vw - 330px) / 694)), 30px);
     font-weight: 600;
     color: c.$text-main;
   }
 
   &_transcription {
-    font-size: 18px;
+    font-size: clamp(16px, calc(16px + 10 * ((100vw - 330px) / 694)), 20px);
     font-style: italic;
     color: c.$text-grey;
   }
@@ -39,7 +48,7 @@
 }
 
 .word_translation {
-  font-size: 20px;
+  font-size: clamp(16px, calc(16px + 10 * ((100vw - 330px) / 694)), 20px);
   font-weight: 500;
   color: c.$text-blue;
   min-height: 1.5em; // достаточно для одной строки
@@ -62,6 +71,25 @@
 }
 
 .button--fixed-width {
-  width: 220px;
+  // width: 220px;
+  // width: clamp(160px, calc(220px - 60 * ((600px - 100vw) / 270)), 220px);
+  width: 100%;
   text-align: center;
+}
+
+.card_top {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+.card_bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 }

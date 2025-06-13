@@ -14,6 +14,8 @@ function Gallery({ focusButtonRef }) {
   const [shuffledIndexes, setShuffledIndexes] = useState([]);
   const [selectedTheme, setSelectedTheme] = useState('');
   const [selectedPos, setSelectedPos] = useState('');
+  const [isSerbianPrimary, setIsSerbianPrimary] = useState(true);
+
 
   // ✅ Фильтрация по теме и части речи
   const filteredWords = words.filter(word => {
@@ -86,23 +88,40 @@ function Gallery({ focusButtonRef }) {
   </div>
 )}
 
-
-
-      <div className="card_container">
-        <Button variant="circle" onClick={previousCard}>‹</Button>
-        {currentWord ? (
-          <WordCard
-            key={currentWord.id}
-            focusButtonRef={focusButtonRef}
-            {...currentWord}
-            incrementCounter={() => incrementCounter(currentWord.id)}
-          />
-        ) : (
-          <div className="empty-message">Нет слов по выбранным параметрам</div>
-        )}
-
-        <Button variant="circle" onClick={nextCard}>›</Button>
-      </div>
+<div>
+  <div className="lang-tabs">
+    <button
+      className={`tab ${isSerbianPrimary ? 'active' : ''}`}
+      onClick={() => setIsSerbianPrimary(true)}
+    >
+      Срб
+    </button>
+    <button
+      className={`tab ${!isSerbianPrimary ? 'active' : ''}`}
+      onClick={() => setIsSerbianPrimary(false)}
+    >
+      Рус
+    </button>
+  </div>
+  
+  
+        <div className="card_container">
+          <Button variant="circle" onClick={previousCard}>‹</Button>
+          {currentWord ? (
+            <WordCard
+              key={currentWord.id}
+              focusButtonRef={focusButtonRef}
+              {...currentWord}
+              isSerbianPrimary={isSerbianPrimary}
+              incrementCounter={() => incrementCounter(currentWord.id)}
+            />
+          ) : (
+            <div className="empty-message">Нет слов по выбранным параметрам</div>
+          )}
+  
+          <Button variant="circle" onClick={nextCard}>›</Button>
+        </div>
+</div>
 
       <Counter counter={counter} />
     </div>
