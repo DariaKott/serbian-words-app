@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from '../Button';
 import './styles.scss';
 
 function WordCard(props) {
   const [showTranslation, setShowTranslation] = useState(false);
-  const { focusButtonRef } = props;
+  const { focusButtonRef, latin, cyrillic, russian, tags_json, incrementCounter, isSerbianPrimary } = props;
 
   useEffect(() => {
     if (focusButtonRef && focusButtonRef.current) {
@@ -11,40 +12,45 @@ function WordCard(props) {
     }
   }, [focusButtonRef]);
 
-  const handleShowTranslation = () => {
-    setShowTranslation(true);
-    props.incrementCounter(); //Увеличиваем счетчик при первом просмотре
-  };
-
-  const handleHideTranslation = () => {
-    setShowTranslation(false);
+  const handleToggleTranslation = () => {
+    if (!showTranslation) {
+      incrementCounter(); 
+    }
+    setShowTranslation(!showTranslation);
   };
 
   return (
-    <div className="card">
-      <h3 className="word word_word">{props.serbian}</h3>
-      <div className="word word_transcription">{props.transcription}</div>
-      {showTranslation ? (
-        <div>
-          <div className="word word_translation">{props.russian}</div>
-          <button className="button-style" onClick={handleHideTranslation}>
-            Скрыть перевод
-          </button>
-        </div>
-      ) : (
-        <div>
-          <div> </div>
-          <br />
-          <button
-            ref={focusButtonRef}
-            className="button-style"
-            onClick={handleShowTranslation}
-          >
-            Показать перевод
-          </button>
-        </div>
-      )}
-      <div className="word word_tags">{props.tags}</div>
+<div className="card">
+      <div className='card_top'>
+        {isSerbianPrimary ? (
+          <>
+            <h3 className="word word_word">{latin}</h3>
+            <div className="word word_transcription">{cyrillic}</div>
+            <div className={`word word_translation ${showTranslation ? 'visible' : 'hidden'}`}>
+              {russian}
+            </div>
+          </>
+        ) : (
+          <>
+            <h3 className="word word_word">{russian}</h3>
+            <div className={`word word_translation ${showTranslation ? 'visible' : 'hidden'}`}>
+              {latin} / {cyrillic}
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className='card_bottom'>
+        <Button
+          ref={focusButtonRef}
+          variant="primary"
+          onClick={handleToggleTranslation}
+          className="button--fixed-width"
+        >
+          {showTranslation ? 'Скрыть перевод' : 'Показать перевод'}
+        </Button>
+        <div className="word word_tags">{tags_json.join(', ')}</div>
+      </div>
     </div>
   );
 }

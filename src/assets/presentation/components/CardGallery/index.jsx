@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { WordCard } from '../WordCard';
-import { words } from '../../../../assets/data1';
+import { words } from '../../../../assets/words/words3';
 import Counter from '../Counter';
+import { Button } from '../Button';
+import { LessonSelect } from '../LessonSelect';
 import './styles.scss';
 
 function Gallery({ focusButtonRef }) {
@@ -10,14 +12,22 @@ function Gallery({ focusButtonRef }) {
   const [viewedWords, setViewedWords] = useState(new Set());
   const [shuffled, setShuffled] = useState(false);
   const [shuffledIndexes, setShuffledIndexes] = useState([]);
+  const [selectedTheme, setSelectedTheme] = useState('');
+  const [selectedPos, setSelectedPos] = useState('');
+  const [isSerbianPrimary, setIsSerbianPrimary] = useState(true);
+
+
+  // ✅ Фильтрация по теме и части речи
+  const filteredWords = words.filter(word => {
+    const themeMatch = selectedTheme === '' || word.tags_json.includes(selectedTheme);
+    const posMatch = selectedPos === '' || word.tags_json.includes(selectedPos);
+    return themeMatch && posMatch;
+  });
 
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.key === 'ArrowLeft') {
-        previousCard();
-      } else if (e.key === 'ArrowRight') {
-        nextCard();
-      }
+      if (e.key === 'ArrowLeft') previousCard();
+      else if (e.key === 'ArrowRight') nextCard();
     };
 
     document.addEventListener('keydown', handleKeyPress);
@@ -27,59 +37,94 @@ function Gallery({ focusButtonRef }) {
   const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5);
 
   const shuffleWords = () => {
-    const newIndexes = shuffleArray([...Array(words.length).keys()]);
+    const newIndexes = shuffleArray([...Array(filteredWords.length).keys()]);
     setShuffledIndexes(newIndexes);
     setShuffled(true);
     setCount(0);
-    console.log(newIndexes);
-  }
+  };
 
-  //функции для переключения между карточками при нажатии стрелок, с зацикливанием по кругу
   const nextCard = () => {
-    setCount((prev) => (prev < words.length - 1 ? prev + 1 : 0));
+    setCount((prev) => (prev < filteredWords.length - 1 ? prev + 1 : 0));
   };
 
   const previousCard = () => {
-    setCount((prev) => (prev > 0 ? prev - 1 : words.length - 1));
+    setCount((prev) => (prev > 0 ? prev - 1 : filteredWords.length - 1));
   };
 
   const incrementCounter = (wordId) => {
-    //Проверяем было ли слово уже просмотрено, если нет то
     if (!viewedWords.has(wordId)) {
       setViewedWords((prevViewedWords) => new Set(prevViewedWords).add(wordId));
       setCounter(counter + 1);
     }
   };
 
-  const currentWord = shuffled ? words[shuffledIndexes[count]] : words[count];
+  const currentWord = filteredWords.length
+    ? (shuffled ? filteredWords[shuffledIndexes[count]] : filteredWords[count])
+    : null;
 
   return (
-    <React.Fragment>
-      <div className="gallery_container">
-        <button className='button-style' onClick={shuffleWords}>Перемешать слова</button>
+    <div className="gallery_container">
+      <LessonSelect
+        themeValue={selectedTheme}
+        onThemeChange={(e) => {
+          setSelectedTheme(e.target.value);
+          setCount(0);
+          setShuffled(false);
+        }}
+        posValue={selectedPos}
+        onPosChange={(e) => {
+          setSelectedPos(e.target.value);
+          setCount(0);
+          setShuffled(false);
+        }}
+      />
+
+      <Button variant="yellow" onClick={shuffleWords}>
+        Перемешать слова
+      </Button>
+      {filteredWords.length > 0 && (
+  <div className="filtered-count">
+    Отобрано слов: {filteredWords.length}
+  </div>
+)}
+
+<div>
+  <div className="lang-tabs">
+    <button
+      className={`tab ${isSerbianPrimary ? 'active' : ''}`}
+      onClick={() => setIsSerbianPrimary(true)}
+    >
+      Срб
+    </button>
+    <button
+      className={`tab ${!isSerbianPrimary ? 'active' : ''}`}
+      onClick={() => setIsSerbianPrimary(false)}
+    >
+      Рус
+    </button>
+  </div>
+  
+  
         <div className="card_container">
-          <button className="gallery_button" onClick={previousCard}>
-            {'<'}
-          </button>
-          {/* <WordCard
-            key={words[count].id}
-            focusButtonRef={focusButtonRef}
-            {...words[count]}
-            incrementCounter={() => incrementCounter(words[count].id)}
-          /> */}
-          <WordCard 
-          key={currentWord.id}
-          focusButtonRef={focusButtonRef}
-          {...currentWord}
-          incrementCounter={() => incrementCounter(currentWord.id)}
-          />
-          <button className="gallery_button" onClick={nextCard}>
-            {'>'}
-          </button>
+          <Button variant="circle" onClick={previousCard}>‹</Button>
+          {currentWord ? (
+            <WordCard
+              key={currentWord.id}
+              focusButtonRef={focusButtonRef}
+              {...currentWord}
+              isSerbianPrimary={isSerbianPrimary}
+              incrementCounter={() => incrementCounter(currentWord.id)}
+            />
+          ) : (
+            <div className="empty-message">Нет слов по выбранным параметрам</div>
+          )}
+  
+          <Button variant="circle" onClick={nextCard}>›</Button>
         </div>
-        <Counter counter={counter} />
-      </div>
-    </React.Fragment>
+</div>
+
+      <Counter counter={counter} />
+    </div>
   );
 }
 

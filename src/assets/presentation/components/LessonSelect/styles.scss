@@ -1,0 +1,32 @@
+@use '../../../colors.scss' as c;
+
+.lesson-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+
+  &__dropdown {
+    font-family: inherit;
+    font-size: 18px;
+    padding: 10px 35px 10px 18px;
+    border-radius: 15px;
+    border: none;
+    background-color: c.$bg-light;
+    color: c.$text-grey;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    appearance: none;
+    cursor: pointer;
+
+    // Синяя галочка
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='%234f9db9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px; // чтобы текст не налезал на стрелку
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
