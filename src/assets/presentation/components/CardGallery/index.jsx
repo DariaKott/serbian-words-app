@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { WordCard } from '../WordCard';
-import { words } from '../../../../assets/words/data1';
+import { words } from '../../../../assets/words/words3';
 import Counter from '../Counter';
 import { Button } from '../Button';
 import { LessonSelect } from '../LessonSelect';
@@ -13,15 +13,14 @@ function Gallery({ focusButtonRef }) {
   const [shuffled, setShuffled] = useState(false);
   const [shuffledIndexes, setShuffledIndexes] = useState([]);
   const [selectedTheme, setSelectedTheme] = useState('');
+  const [selectedPos, setSelectedPos] = useState('');
 
-  const themes = [
-  { value: 'all', label: 'Все слова' },
-  { value: 'verbs', label: 'Глаголы' },
-  { value: 'nouns', label: 'Существительные' },
-  { value: 'adjectives', label: 'Прилагательные' },
-  { value: 'doctor', label: 'У врача' }
-];
-
+  // ✅ Фильтрация по теме и части речи
+  const filteredWords = words.filter(word => {
+    const themeMatch = selectedTheme === '' || word.tags_json.includes(selectedTheme);
+    const posMatch = selectedPos === '' || word.tags_json.includes(selectedPos);
+    return themeMatch && posMatch;
+  });
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -36,18 +35,18 @@ function Gallery({ focusButtonRef }) {
   const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5);
 
   const shuffleWords = () => {
-    const newIndexes = shuffleArray([...Array(words.length).keys()]);
+    const newIndexes = shuffleArray([...Array(filteredWords.length).keys()]);
     setShuffledIndexes(newIndexes);
     setShuffled(true);
     setCount(0);
   };
 
   const nextCard = () => {
-    setCount((prev) => (prev < words.length - 1 ? prev + 1 : 0));
+    setCount((prev) => (prev < filteredWords.length - 1 ? prev + 1 : 0));
   };
 
   const previousCard = () => {
-    setCount((prev) => (prev > 0 ? prev - 1 : words.length - 1));
+    setCount((prev) => (prev > 0 ? prev - 1 : filteredWords.length - 1));
   };
 
   const incrementCounter = (wordId) => {
@@ -57,34 +56,52 @@ function Gallery({ focusButtonRef }) {
     }
   };
 
-  const currentWord = shuffled ? words[shuffledIndexes[count]] : words[count];
+  const currentWord = filteredWords.length
+    ? (shuffled ? filteredWords[shuffledIndexes[count]] : filteredWords[count])
+    : null;
 
   return (
     <div className="gallery_container">
       <LessonSelect
-  value={selectedTheme}
-  onChange={(e) => setSelectedTheme(e.target.value)}
-  options={themes}
-/>
+        themeValue={selectedTheme}
+        onThemeChange={(e) => {
+          setSelectedTheme(e.target.value);
+          setCount(0);
+          setShuffled(false);
+        }}
+        posValue={selectedPos}
+        onPosChange={(e) => {
+          setSelectedPos(e.target.value);
+          setCount(0);
+          setShuffled(false);
+        }}
+      />
+
       <Button variant="yellow" onClick={shuffleWords}>
         Перемешать слова
       </Button>
+      {filteredWords.length > 0 && (
+  <div className="filtered-count">
+    Отобрано слов: {filteredWords.length}
+  </div>
+)}
+
+
 
       <div className="card_container">
-        <Button variant="circle" onClick={previousCard}>
-          ‹
-        </Button>
-        
-        <WordCard
-          key={currentWord.id}
-          focusButtonRef={focusButtonRef}
-          {...currentWord}
-          incrementCounter={() => incrementCounter(currentWord.id)}
-        />
+        <Button variant="circle" onClick={previousCard}>‹</Button>
+        {currentWord ? (
+          <WordCard
+            key={currentWord.id}
+            focusButtonRef={focusButtonRef}
+            {...currentWord}
+            incrementCounter={() => incrementCounter(currentWord.id)}
+          />
+        ) : (
+          <div className="empty-message">Нет слов по выбранным параметрам</div>
+        )}
 
-        <Button variant="circle" onClick={nextCard}>
-          ›
-        </Button>
+        <Button variant="circle" onClick={nextCard}>›</Button>
       </div>
 
       <Counter counter={counter} />

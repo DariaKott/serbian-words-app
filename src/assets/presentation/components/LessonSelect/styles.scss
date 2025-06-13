@@ -2,7 +2,9 @@
 
 .lesson-select {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  gap: 20px;
 
   &__dropdown {
     font-family: inherit;

@@ -4,7 +4,7 @@ import './styles.scss';
 
 function WordCard(props) {
   const [showTranslation, setShowTranslation] = useState(false);
-  const { focusButtonRef } = props;
+  const { focusButtonRef, latin, cyrillic, russian, tags_json, incrementCounter } = props;
 
   useEffect(() => {
     if (focusButtonRef && focusButtonRef.current) {
@@ -13,25 +13,21 @@ function WordCard(props) {
   }, [focusButtonRef]);
 
   const handleToggleTranslation = () => {
-    if (showTranslation) {
-      setShowTranslation(false);
-    } else {
-      setShowTranslation(true);
-      props.incrementCounter(); // увеличиваем счётчик при первом показе
+    if (!showTranslation) {
+      incrementCounter(); 
     }
+    setShowTranslation(!showTranslation);
   };
 
   return (
     <div className="card">
-      <h3 className="word word_word">{props.serbian}</h3>
-      <div className="word word_transcription">{props.transcription}</div>
+      <h3 className="word word_word">{latin}</h3>
+      <div className="word word_transcription">{cyrillic}</div>
 
-      {/* Всегда отображаем перевод (управляем видимостью классом) */}
       <div className={`word word_translation ${showTranslation ? 'visible' : 'hidden'}`}>
-        {props.russian}
+        {russian}
       </div>
 
-      {/* Одна кнопка с переключающимся текстом */}
       <Button
         ref={focusButtonRef}
         variant="primary"
@@ -41,7 +37,7 @@ function WordCard(props) {
         {showTranslation ? 'Скрыть перевод' : 'Показать перевод'}
       </Button>
 
-      <div className="word word_tags">{props.tags}</div>
+      <div className="word word_tags">{tags_json.join(', ')}</div>
     </div>
   );
 }

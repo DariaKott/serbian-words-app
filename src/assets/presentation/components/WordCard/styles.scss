@@ -17,8 +17,8 @@
 }
 
 .word {
-  font-family: f.$text; // или просто 'Inter', sans-serif;
-
+  font-family: f.$text; 
+  
   &_word {
     font-size: 34px;
     font-weight: 600;
